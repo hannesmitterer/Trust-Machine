@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUST-MACHINE | Resonance School Nexus</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --shield-red: #8b0000;
+            --bg-dark: #0a0a0a;
+            --terminal-green: #00ff41;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #nexus-container {
+            width: 95%;
+            max-width: 1100px;
+            height: 90vh;
+            border: 2px solid var(--gold);
+            margin-top: 2vh;
+            background: rgba(10, 10, 10, 0.95);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
+        }
+        .header {
+            padding: 15px;
+            border-bottom: 1px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(to right, #1a1a1a, #000);
+        }
+        .monitor-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .wave-box {
+            border: 1px solid #333;
+            background: #000;
+            position: relative;
+            height: 200px;
+        }
+        .stats-box {
+            border: 1px solid var(--gold);
+            padding: 15px;
+            font-size: 0.8em;
+            background: rgba(139, 0, 0, 0.05);
+        }
+        .console {
+            grid-column: span 2;
+            background: #000;
+            border: 1px solid #222;
+            padding: 10px;
+            height: 180px;
+            overflow-y: auto;
+            font-size: 0.75em;
+            color: var(--terminal-green);
+        }
+        .wallet-ui {
+            grid-column: span 2;
+            padding: 15px;
+            border: 1px dashed var(--gold);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        button {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .highlight { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+<div id="nexus-container">
+    <div class="header">
+        <div>
+            <span class="highlight">TRUST-MACHINE v2.6</span> | 
+            <small>ID: SB-71-MITTERER | BOLZANO_71</small>
+        </div>
+        <div id="integrity-status" style="color:var(--terminal-green)">INTEGRITY: 100% SECURE</div>
+    </div>
+
+    <div class="monitor-grid">
+        <div class="wave-box">
+            <canvas id="oscillator"></canvas>
+            <div style="position:absolute; bottom:5px; left:10px; font-size:0.7em;">MASTER CLOCK: 0.043 Hz</div>
+        </div>
+
+        <div class="stats-box">
+            <h4 class="highlight" style="margin-top:0">TRIPLE-SIGN STATUS</h4>
+            H. MITTERER: <span style="color:lime">SIGNED</span><br>
+            W. MITTERER: <span style="color:lime">SIGNED</span><br>
+            D. ZUEGG: <span style="color:lime">VERIFIED</span><br><br>
+            <h4 class="highlight">IPFS ANCHOR</h4>
+            CID: bafybeih...zuegg-2026<br>
+            ST-SYNC: ACTIVE
+        </div>
+
+        <div class="wallet-ui">
+            <div>PEACEBONDS: <span id="pb-val" class="highlight">0.0000</span> PB</div>
+            <button onclick="syncWallet()">SYNC WITH BACKEND</button>
+            <button onclick="injectPeacebonds()" style="background:var(--shield-red); color:white;">INJECT RESONANCE</button>
+        </div>
+
+        <div class="console" id="log">
+            [02:15:01] System Handshake: Euystacio Framework...<br>
+            [02:15:05] Connecting to https://hannesmitterer.github.io/Trust-Machine/ API...<br>
+            [02:15:10] Multi-Sig detected: Mitterer-Vinatzer-Zuegg.<br>
+            [02:15:12] Grounding check: Bolzano Portici 71 - OK.
+        </div>
+    </div>
+
+    <div class="footer" style="padding:10px; text-align:center; font-size:0.6em; color:#555;">
+        NOTHING IS FINAL ❤️ | MISSION: AVE MARIA | 0.043 Hz STABILITY
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('oscillator');
+    const ctx = canvas.getContext('2d');
+    let offset = 0;
+
+    function draw() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let x = 0; x < canvas.width; x++) {
+            const y = canvas.height/2 + Math.sin(x * 0.02 + offset) * 30;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        offset += 0.043; // Euystacio Constant
+        requestAnimationFrame(draw);
+    }
+    draw();
+
+    function syncWallet() {
+        addLog("API Request sent to Backend...");
+        setTimeout(() => {
+            addLog("Success: Wallet synchronized with IPFS CID.");
+            document.getElementById('pb-val').innerHTML = "1,043.26";
+        }, 1500);
+    }
+
+    function injectPeacebonds() {
+        addLog("VETO CHECK: Validation H. Mitterer...");
+        setTimeout(() => {
+            addLog("TRIPLE-SIGN CHECK: Dieter Zuegg Signature verified.");
+            addLog("RESONANCE INJECTION: +1 Peacebond created (0.043 Hz logic).");
+        }, 2000);
+    }
+
+    function addLog(msg) {
+        const log = document.getElementById('log');
+        log.innerHTML += `<br>[${new Date().toLocaleTimeString()}] ${msg}`;
+        log.scrollTop = log.scrollHeight;
+    }
+</script>
+
+</body>
+</html>
