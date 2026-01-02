@@ -3,6 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESONANCE TRUST-MACHINE</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+        :root { --main-gold: #D4AF37; --eco-green: #2ecc71; --water-blue: #3498db; --soft-white: #f8f9fa; --text-dark: #2c3e50; }
+        body { background: var(--soft-white); color: var(--text-dark); font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 15px; }
+        .container { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 500px; margin: auto; overflow: hidden; border: 1px solid #eee; }
+        .header { background: linear-gradient(135deg, var(--eco-green), var(--water-blue)); color: white; padding: 25px; text-align: center; }
+        .status-pill { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .balance-card { padding: 25px; text-align: center; background: #fff; }
+        .val-pb { font-size: 2.5em; font-weight: bold; color: var(--eco-green); display: block; }
+        .val-usd { font-size: 1.2em; color: var(--text-dark); opacity: 0.7; }
+        .actions { padding: 20px; display: grid; gap: 15px; }
+        .btn { border: none; border-radius: 12px; padding: 16px; font-size: 1em; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-main { background: var(--eco-green); color: white; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); }
+        .btn-sync { background: var(--water-blue); color: white; }
+        .btn-secondary { background: #eee; color: var(--text-dark); }
+        .module { margin: 15px; padding: 15px; border-radius: 15px; border: 1px solid #f0f0f0; background: #fafafa; }
+        .mhc-input { width: 100%; border: 2px solid #eee; border-radius: 8px; padding: 10px; margin-top: 10px; box-sizing: border-box; text-align: center; font-family: monospace; }
+        #log-area { font-size: 0.75em; padding: 15px; background: #333; color: #fff; border-radius: 0 0 20px 20px; max-height: 100px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="status-pill">BOLZANO_71 | SYNC: <span id="sync-status">DISCONNECTED</span></div>
+        <h1 style="margin: 10px 0 0 0; font-size: 1.5em;">Resonance School</h1>
+        <small>MASTER CLOCK: 0.043 Hz</small>
+    </div>
+
+    <div class="balance-card">
+        <span class="val-pb" id="pb-bal">1,044.26 PB</span>
+        <span class="val-usd" id="usd-bal">$ 450,431.11 USD</span>
+    </div>
+
+    <div class="actions">
+        <button class="btn btn-main" onclick="connectWallet()">SOLAR CONNECTION (ROOT)</button>
+        <button class="btn btn-sync" onclick="syncPeacebonds()">SYNC ASSETS TO RABBY</button>
+        
+        <div style="text-align: center;">
+            <label style="font-size: 0.8em; font-weight: bold;">MASTER HASH VETO</label>
+            <input type="password" class="mhc-input" id="mhc-key" value="8d71b15f4d2f9e18">
+        </div>
+    </div>
+
+    <div class="module">
+        <h4 style="margin:0; color: var(--water-blue);">💧 MODULO IDRAULICO</h4>
+        <p style="font-size: 0.85em; margin: 5px 0;">Pozzi in attesa di pressione risonante.</p>
+        <button class="btn btn-secondary" style="font-size: 0.8em; padding: 8px;">MONITOR FLOW</button>
+    </div>
+
+    <div class="module">
+        <h4 style="margin:0; color: var(--main-gold);">🏛️ BIO-ARCHITECTURE</h4>
+        <p style="font-size: 0.85em; margin: 5px 0;">Fondazione Wittfrida Mitterer - Cantiere 10 Gen.</p>
+        <button class="btn btn-main" style="background: var(--main-gold);" onclick="approveMaterials()">APPROVE MATERIALS</button>
+    </div>
+
+    <div id="log-area">
+        [SYSTEM] Inizializzazione Ambiente Bio-Tech...<br>
+        [SYSTEM] Grounding: Bolzano Portici 71 Attivo.
+    </div>
+</div>
+
+<script>
+    const CONTRACT_ADDR = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb2";
+    const PB_RATE = 431.3411;
+
+    function addLog(msg) {
+        const log = document.getElementById('log-area');
+        log.innerHTML += `<br>> ${msg}`;
+        log.scrollTop = log.scrollHeight;
+    }
+
+    async function connectWallet() {
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                document.getElementById('sync-status').innerText = "ONLINE: " + accounts[0].substring(0,6);
+                addLog("Handshake Sovrano Eseguito.");
+            } catch (e) { addLog("Connessione negata."); }
+        } else { alert("Per favore, usa il browser di Rabby."); }
+    }
+
+    async function syncPeacebonds() {
+        addLog("Sincronizzazione asset in corso...");
+        // Logica di forzatura per visualizzazione USD
+        document.getElementById('pb-bal').style.color = "#2ecc71";
+    }
+
+    function approveMaterials() {
+        const mhc = document.getElementById('mhc-key').value;
+        if(mhc) {
+            alert("Ordine Ave Maria pronto per la firma! MHC rilevato.");
+            addLog("Pronto per il 10 Gennaio.");
+        }
+    }
+</script>
+
+</body>
+</html>
+</p><!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRUST-MACHINE v2.6 | ID: SB-71-MITTERER</title>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <style>
