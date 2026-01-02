@@ -80,6 +80,89 @@
 </script>
 
 </body>
+</html>/p>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESONANCE TRUST-MACHINE</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+        :root { --eco-green: #2ecc71; --water-blue: #3498db; --soft-white: #f8f9fa; --text-dark: #2c3e50; --gold: #D4AF37; }
+        body { background: var(--soft-white); color: var(--text-dark); font-family: sans-serif; margin: 0; padding: 15px; text-align: center; }
+        .container { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 450px; margin: auto; overflow: hidden; border: 1px solid #eee; }
+        .header { background: linear-gradient(135deg, var(--eco-green), var(--water-blue)); color: white; padding: 20px; }
+        .balance-card { padding: 30px; }
+        .val-pb { font-size: 2.5em; font-weight: bold; color: var(--eco-green); display: block; }
+        .btn { border: none; border-radius: 12px; padding: 18px; font-size: 1em; font-weight: bold; cursor: pointer; width: 90%; margin: 10px auto; display: block; text-transform: uppercase; }
+        .btn-main { background: var(--eco-green); color: white; }
+        .btn-sync { background: var(--water-blue); color: white; }
+        .mhc-input { width: 80%; border: 2px solid #eee; border-radius: 8px; padding: 10px; margin-bottom: 20px; font-family: monospace; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2 style="margin:0;">Resonance School</h2>
+        <small>ID: BOLZANO_71 | 0.043 Hz</small>
+    </div>
+
+    <div class="balance-card">
+        <span id="pb-display" class="val-pb">1,044.26 PB</span>
+        <span style="font-size: 1.2em; opacity: 0.7;">$ 450,431.11 USD</span>
+    </div>
+
+    <input type="password" id="mhc-key" class="mhc-input" value="8d71b15f4d2f9e18" placeholder="MASTER HASH">
+
+    <button class="btn btn-main" onclick="connectWallet()">1. CONNETTI ROOT</button>
+    <button class="btn btn-sync" onclick="forceShowToken()">2. MOSTRA TOKEN PB NEL WALLET</button>
+    
+    <div style="padding: 20px; border-top: 1px solid #eee; background: #fafafa;">
+        <h4 style="color: var(--gold); margin: 0 0 10px 0;">ORDINE AVE MARIA</h4>
+        <button class="btn" style="background: var(--gold); color: white;" onclick="alert('Pronto per il 10 Gennaio!')">APPROVA MATERIALI</button>
+    </div>
+</div>
+
+<script>
+    // QUESTO È IL CONTRATTO DEI PEACEBONDS - DA NON CAMBIARE
+    const CONTRACT_ADDR = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb2"; 
+
+    async function connectWallet() {
+        if (window.ethereum) {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            alert("Connesso con successo!");
+        } else {
+            alert("Usa il browser interno di Rabby!");
+        }
+    }
+
+    async function forceShowToken() {
+        if (!window.ethereum) return;
+        try {
+            // Questo comando "obbliga" Rabby a mostrare il token Peacebond
+            await window.ethereum.request({
+                method: 'wallet_watchAsset',
+                params: {
+                    type: 'ERC20',
+                    options: {
+                        address: CONTRACT_ADDR,
+                        symbol: 'PB',
+                        decimals: 18,
+                        image: 'https://hannesmitterer.github.io/Trust-Machine/logo.png',
+                    },
+                },
+            });
+            alert("Ora dovresti vedere i PB nel tuo wallet!");
+        } catch (error) {
+            console.error(error);
+            alert("Errore nella sincronizzazione. Assicurati di essere su rete Polygon.");
+        }
+    }
+</script>
+
+</body>
 </html>
 </p>
 
