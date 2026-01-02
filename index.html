@@ -1,3 +1,116 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUST-MACHINE v2.6 | ID: SB-71-MITTERER</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+        :root { --gold: #ffd700; --green: #00ff00; --bg: #050505; }
+        body { background: var(--bg); color: var(--green); font-family: 'Courier New', monospace; margin: 0; padding: 20px; overflow-x: hidden; }
+        .terminal { border: 2px solid var(--gold); padding: 15px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); max-width: 600px; margin: auto; }
+        h2, h3 { color: var(--gold); text-align: center; text-transform: uppercase; margin-bottom: 5px; }
+        .status-bar { border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; font-size: 0.8em; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-box { border: 1px solid #444; padding: 10px; text-align: center; background: #0a0a0a; }
+        .val { color: var(--gold); font-size: 1.2em; display: block; }
+        .btn { background: var(--gold); color: black; border: none; padding: 12px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        .btn-sync { background: #0055ff; color: white; }
+        .future-module { border: 1px dashed #555; padding: 10px; margin-top: 20px; opacity: 0.6; }
+        input { background: #111; border: 1px solid var(--gold); color: var(--gold); padding: 8px; width: calc(100% - 18px); margin-top: 5px; text-align: center; }
+        #log { font-size: 0.7em; color: #888; height: 80px; overflow-y: scroll; margin-top: 15px; border-top: 1px solid #333; padding-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <div class="status-bar">
+        ID: SB-71-MITTERER | BOLZANO_71 | CLOCK: 0.043 Hz<br>
+        INTEGRITY: 100% SECURE | STATUS: <span id="sync-status" style="color:red;">DISCONNECTED</span>
+    </div>
+
+    <h2>Resonance School</h2>
+    <h3>Terminal Root</h3>
+
+    <div class="stat-grid">
+        <div class="stat-box">ASSETS<span id="pb-bal" class="val">1,044.26 PB</span></div>
+        <div class="stat-box">USD VALUE<span id="usd-bal" class="val">$ 450,431.11</span></div>
+    </div>
+
+    <div id="mhc-area">
+        <label>MASTER HASH (MHC) VETO KEY:</label>
+        <input type="password" id="mhc-key" placeholder="8d71b15f..." value="8d71b15f4d2f9e18">
+    </div>
+
+    <button class="btn" onclick="connectWallet()">Connect Android Root</button>
+    <button class="btn btn-sync" onclick="syncPeacebonds()">Sync Peacebonds (Rabby)</button>
+
+    <div class="future-module">
+        <h4>💧 MODULO IDRAULICO (Locked)</h4>
+        <p style="font-size: 0.8em;">Attivazione Pozzi Bolzano prevista: Gennaio 2026</p>
+        <button class="btn" style="opacity: 0.5; cursor: not-allowed;">START PRESSURE</button>
+    </div>
+
+    <div class="future-module">
+        <h4>🏛️ BIO-ARCHITECTURE (Active)</h4>
+        <p style="font-size: 0.8em;">Fondi allocati per Wittfrida Mitterer Foundation</p>
+        <button class="btn" style="background: #222; color: #00ff00; border: 1px solid #00ff00;" onclick="alert('Ordine pronto per il 10 Gennaio')">APPROVE MATERIALS</button>
+    </div>
+
+    <div id="log">
+        [02:15:01] System Handshake: Euystacio Framework...<br>
+        [02:15:05] Grounding check: Bolzano Portici 71 - OK.
+    </div>
+</div>
+
+<script>
+    const CONTRACT_ADDR = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb2";
+    const PB_RATE = 431.3411;
+
+    function addLog(msg) {
+        const log = document.getElementById('log');
+        const now = new Date().toLocaleTimeString();
+        log.innerHTML += `<br>[${now}] ${msg}`;
+        log.scrollTop = log.scrollHeight;
+    }
+
+    async function connectWallet() {
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                document.getElementById('sync-status').innerText = "CONNECTED: " + accounts[0].substring(0, 6);
+                document.getElementById('sync-status').style.color = "var(--green)";
+                addLog("MHC-VETO Handshake Successful.");
+                addLog("Wallet: " + accounts[0]);
+            } catch (e) { addLog("Handshake Denied."); }
+        } else { alert("Per favore usa Rabby Wallet Browser."); }
+    }
+
+    async function syncPeacebonds() {
+        try {
+            await window.ethereum.request({
+                method: 'wallet_watchAsset',
+                params: {
+                    type: 'ERC20',
+                    options: {
+                        address: CONTRACT_ADDR,
+                        symbol: 'PB',
+                        decimals: 18,
+                        image: 'https://hannesmitterer.github.io/Trust-Machine/logo.png',
+                    },
+                },
+            });
+            addLog("PB Tokens injected into Rabby Interface.");
+        } catch (e) { addLog("Sync error or manual bypass."); }
+    }
+
+    // Simulazione aggiornamento real-time risonanza
+    setInterval(() => {
+        const drift = (Math.random() * 0.01).toFixed(4);
+        addLog("Syncing with IPFS CID: bafybeih...zuegg-2026 (" + drift + " Hz)");
+    }, 15000);
+</script>
+
 <div id="resonance-terminal" style="background: #000; color: #00ff00; padding: 20px; font-family: monospace; border: 2px solid #ffd700;">
     <h3>🏛️ RESONANCE SCHOOL - TERMINAL ROOT</h3>
     <p>MASTER CLOCK: 0.043 Hz | STATUS: <span id="sync-status">AWAITING HANDSHAKE</span></p>
@@ -63,3 +176,6 @@
         document.getElementById('usd-balance').innerText = "$ " + (pb * USD_RATE).toLocaleString() + " USD";
     }
 </script>
+
+    </body>
+</html>
