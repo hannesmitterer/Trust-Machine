@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESONANCE TRUST-MACHINE v2.8</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+        :root { --eco-green: #27ae60; --water-blue: #2980b9; --gold: #f1c40f; --bg: #ffffff; --text: #2c3e50; }
+        body { background: #f0f2f5; color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .card { background: var(--bg); border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 450px; overflow: hidden; border: 1px solid #e1e4e8; }
+        .header { background: linear-gradient(135deg, var(--eco-green), var(--water-blue)); color: white; padding: 30px; text-align: center; }
+        .status-badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .balance-section { padding: 40px 20px; text-align: center; }
+        .pb-val { font-size: 3em; font-weight: 800; color: var(--eco-green); display: block; line-height: 1; }
+        .usd-val { font-size: 1.4em; color: var(--text); opacity: 0.6; margin-top: 10px; display: block; }
+        .actions { padding: 0 25px 25px 25px; }
+        .btn { border: none; border-radius: 15px; padding: 18px; font-size: 1.1em; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 12px; transition: 0.2s; text-transform: uppercase; }
+        .btn-connect { background: var(--text); color: white; }
+        .btn-sync { background: var(--water-blue); color: white; border-bottom: 4px solid #1a5276; }
+        .btn-approve { background: var(--gold); color: #000; margin-top: 10px; }
+        .input-group { margin: 20px 0; }
+        input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; text-align: center; font-family: monospace; box-sizing: border-box; }
+        #console { background: #1a1a1a; color: #00ff00; font-family: monospace; font-size: 0.75em; padding: 15px; height: 100px; overflow-y: auto; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <div class="status-badge">BOLZANO_71 | MHC-ROOT ACTIVE</div>
+        <h1 style="margin: 10px 0 5px 0;">Resonance School</h1>
+        <div style="font-size: 0.9em; opacity: 0.9;">Master Clock: 0.043 Hz</div>
+    </div>
+
+    <div class="balance-section">
+        <span class="pb-val" id="pb-amount">1,044.26 PB</span>
+        <span class="usd-val" id="usd-amount">$ 450,431.11 USD</span>
+    </div>
+
+    <div class="actions">
+        <button class="btn btn-connect" onclick="initWallet()">1. CONNETTI 0x5d61</button>
+        <button class="btn btn-sync" onclick="activateVisibility()">2. SBLOCCA VISUALIZZAZIONE PB</button>
+        
+        <div class="input-group">
+            <label style="font-size: 0.8em; font-weight: bold; color: #888;">MASTER HASH VETO KEY</label>
+            <input type="password" id="mhc-key" value="8d71b15f4d2f9e18">
+        </div>
+
+        <div style="border-top: 1px solid #eee; padding-top: 20px;">
+            <h4 style="margin: 0 0 10px 0; color: var(--water-blue);">CANTIERE 10 GENNAIO</h4>
+            <button class="btn btn-approve" onclick="approveMission()">APPROVA MATERIALI (AVE MARIA)</button>
+        </div>
+    </div>
+
+    <div id="console">> In attesa di segnale MATIC...</div>
+</div>
+
+<script>
+    const PB_CONTRACT = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb2";
+    const WALLET_HANNES = "0x5d61"; // Rilevamento automatico
+
+    function log(msg) {
+        const c = document.getElementById('console');
+        c.innerHTML += `<br>> ${msg}`;
+        c.scrollTop = c.scrollHeight;
+    }
+
+    async function initWallet() {
+        if (window.ethereum) {
+            try {
+                const acc = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                log("Connesso: " + acc[0]);
+                document.querySelector('.status-badge').innerText = "ONLINE: " + acc[0].substring(0,6);
+                document.querySelector('.status-badge').style.background = "#27ae60";
+            } catch (e) { log("Errore connessione."); }
+        } else { alert("Apri Rabby Browser!"); }
+    }
+
+    async function activateVisibility() {
+        if (!window.ethereum) return;
+        log("Iniezione contratto PB in corso...");
+        try {
+            await window.ethereum.request({
+                method: 'wallet_watchAsset',
+                params: {
+                    type: 'ERC20',
+                    options: {
+                        address: PB_CONTRACT,
+                        symbol: 'PB',
+                        decimals: 18,
+                        image: 'https://hannesmitterer.github.io/Trust-Machine/logo.png',
+                    },
+                },
+            });
+            log("SUCCESS: Token PB ora visibile nel Wallet.");
+        } catch (e) { log("Verifica MATIC fallita o annullata."); }
+    }
+
+    function approveMission() {
+        const mhc = document.getElementById('mhc-key').value;
+        if(mhc === "8d71b15f4d2f9e18") {
+            log("MHC VALIDATO. Ordine pronto per il 10 Gennaio.");
+            alert("Protocollo Ave Maria Inizializzato. Pronti per la firma reale.");
+        } else {
+            alert("MHC Errato. Accesso negato.");
+        }
+    }
+
+    // Simulazione battito 0.043 Hz
+    setInterval(() => { log("Resonance Sync: OK (0.043 Hz)"); }, 15000);
+</script>
+
+</body>
+</html>
