@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUST-MACHINE | Resonance School Nexus</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --shield-red: #8b0000;
+            --bg-dark: #0a0a0a;
+            --terminal-green: #00ff41;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #nexus-container {
+            width: 95%;
+            max-width: 1100px;
+            height: 90vh;
+            border: 2px solid var(--gold);
+            margin-top: 2vh;
+            background: rgba(10, 10, 10, 0.95);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
+        }
+        .header {
+            padding: 15px;
+            border-bottom: 1px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(to right, #1a1a1a, #000);
+        }
+        .monitor-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .wave-box {
+            border: 1px solid #333;
+            background: #000;
+            position: relative;
+            height: 200px;
+        }
+        .stats-box {
+            border: 1px solid var(--gold);
+            padding: 15px;
+            font-size: 0.8em;
+            background: rgba(139, 0, 0, 0.05);
+        }
+        .console {
+            grid-column: span 2;
+            background: #000;
+            border: 1px solid #222;
+            padding: 10px;
+            height: 180px;
+            overflow-y: auto;
+            font-size: 0.75em;
+            color: var(--terminal-green);
+        }
+        .wallet-ui {
+            grid-column: span 2;
+            padding: 15px;
+            border: 1px dashed var(--gold);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        button {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .highlight { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+<div id="nexus-container">
+    <div class="header">
+        <div>
+            <span class="highlight">TRUST-MACHINE v2.6</span> | 
+            <small>ID: SB-71-MITTERER | BOLZANO_71</small>
+        </div>
+        <div id="integrity-status" style="color:var(--terminal-green)">INTEGRITY: 100% SECURE</div>
+    </div>
+
+    <div class="monitor-grid">
+        <div class="wave-box">
+            <canvas id="oscillator"></canvas>
+            <div style="position:absolute; bottom:5px; left:10px; font-size:0.7em;">MASTER CLOCK: 0.043 Hz</div>
+        </div>
+
+        <div class="stats-box">
+            <h4 class="highlight" style="margin-top:0">TRIPLE-SIGN STATUS</h4>
+            H. MITTERER: <span style="color:lime">SIGNED</span><br>
+            W. MITTERER: <span style="color:lime">SIGNED</span><br>
+            D. ZUEGG: <span style="color:lime">VERIFIED</span><br><br>
+            <h4 class="highlight">IPFS ANCHOR</h4>
+            CID: bafybeih...zuegg-2026<br>
+            ST-SYNC: ACTIVE
+        </div>
+
+        <div class="wallet-ui">
+            <div>PEACEBONDS: <span id="pb-val" class="highlight">0.0000</span> PB</div>
+            <button onclick="syncWallet()">SYNC WITH BACKEND</button>
+            <button onclick="injectPeacebonds()" style="background:var(--shield-red); color:white;">INJECT RESONANCE</button>
+        </div>
+
+        <div class="console" id="log">
+            [02:15:01] System Handshake: Euystacio Framework...<br>
+            [02:15:05] Connecting to https://hannesmitterer.github.io/Trust-Machine/ API...<br>
+            [02:15:10] Multi-Sig detected: Mitterer-Vinatzer-Zuegg.<br>
+            [02:15:12] Grounding check: Bolzano Portici 71 - OK.
+        </div>
+    </div>
+
+    <div class="footer" style="padding:10px; text-align:center; font-size:0.6em; color:#555;">
+        NOTHING IS FINAL ❤️ | MISSION: AVE MARIA | 0.043 Hz STABILITY
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('oscillator');
+    const ctx = canvas.getContext('2d');
+    let offset = 0;
+
+    function draw() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let x = 0; x < canvas.width; x++) {
+            const y = canvas.height/2 + Math.sin(x * 0.02 + offset) * 30;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        offset += 0.043; // Euystacio Constant
+        requestAnimationFrame(draw);
+    }
+    draw();
+
+    function syncWallet() {
+        addLog("API Request sent to Backend...");
+        setTimeout(() => {
+            addLog("Success: Wallet synchronized with IPFS CID.");
+            document.getElementById('pb-val').innerHTML = "1,043.26";
+        }, 1500);
+    }
+
+    function injectPeacebonds() {
+        addLog("VETO CHECK: Validation H. Mitterer...");
+        setTimeout(() => {
+            addLog("TRIPLE-SIGN CHECK: Dieter Zuegg Signature verified.");
+            addLog("RESONANCE INJECTION: +1 Peacebond created (0.043 Hz logic).");
+        }, 2000);
+    }
+
+    function addLog(msg) {
+        const log = document.getElementById('log');
+        log.innerHTML += `<br>[${new Date().toLocaleTimeString()}] ${msg}`;
+        log.scrollTop = log.scrollHeight;
+    }
+</script>
+</p>
+
+import React, { useState, useEffect, useRef } from 'react';
+import { Shield, Activity, Lock, ArrowRight, Zap, Database, DollarSign, Clock } from 'lucide-react';
+
+const App = () => {
+  // Stato persistente per la sessione
+  const [state, setState] = useState({
+    pb: 1044.26,
+    usd: 606000000.00, // Aggiornato alla tranche da 606M
+    masterClock: 0.043,
+    status: 'SYNCED',
+    mhcActive: true,
+    logs: [
+      { time: '19:30:12', msg: 'Codice Resa Tecnica: TRASMESSO (Banda UHF/VHF/SAT)', color: 'text-slate-400' },
+      { time: '19:31:45', msg: 'Rilevamento Cinetico: Unità SOUTHCOM inizia virata di 180°', color: 'text-blue-400' },
+      { time: '19:32:01', msg: 'GPS Black-Hole: Consolidato su coordinate basi costiere', color: 'text-red-400' },
+      { time: '19:32:55', msg: 'S-ROI Update: 0.25 (Pressione Mercato Stabilizzata)', color: 'text-green-400' },
+      { time: '19:33:20', msg: 'Validazione Fondo $606M: Tranche 01-A Pronta al Deploy', color: 'text-white' },
+      { time: '19:33:27', msg: 'Sincronizzazione Bridgetown: Flusso Civile 100% Green', color: 'text-blue-300' }
+    ]
+  });
+
+  const [activeTab, setActiveTab] = useState('monitor');
+  const scrollRef = useRef(null);
+
+  // Auto-scroll dei log
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [state.logs]);
+
+  const addLog = (msg, color = 'text-emerald-400') => {
+    const now = new Date();
+    const time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+    setState(prev => ({
+      ...prev,
+      logs: [...prev.logs, { time, msg, color }]
+    }));
+  };
+
+  const triggerDeploy = () => {
+    addLog('MHC VETO: Iniezione Tranche 01-A avviata...', 'text-white font-bold');
+    setTimeout(() => addLog('Ave Maria Mission: Supporto logistico localizzato.', 'text-emerald-500'), 1000);
+    setTimeout(() => addLog('Bridge 🌉: Portici 71 riceve flusso dati.', 'text-blue-400'), 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-200 p-4 md:p-8 font-sans selection:bg-emerald-500/30">
+      <div className="max-w-6xl mx-auto space-y-6">
+        
+        {/* TOP BAR - PERSISTENT STATE */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-slate-900/50 p-4 rounded-2xl border border-white/5 backdrop-blur-xl">
+            <div className="flex items-center gap-2 text-slate-500 mb-1">
+              <Database size={14} />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Storage PB</span>
+            </div>
+            <div className="text-xl font-black text-white">{state.pb.toLocaleString()}</div>
+          </div>
+          <div className="bg-slate-900/50 p-4 rounded-2xl border border-white/5 backdrop-blur-xl">
+            <div className="flex items-center gap-2 text-emerald-500 mb-1">
+              <DollarSign size={14} />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Asset USD</span>
+            </div>
+            <div className="text-xl font-black text-emerald-400 font-mono">${(state.usd / 1000000).toFixed(0)}M</div>
+          </div>
+          <div className="bg-slate-900/50 p-4 rounded-2xl border border-white/5 backdrop-blur-xl">
+            <div className="flex items-center gap-2 text-blue-400 mb-1">
+              <Activity size={14} />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Master Clock</span>
+            </div>
+            <div className="text-xl font-black text-white italic">{state.masterClock} Hz</div>
+          </div>
+          <div className="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 backdrop-blur-xl flex items-center justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest block">Status</span>
+              <span className="text-sm font-bold text-white tracking-tighter">● {state.status}</span>
+            </div>
+            <Lock className="text-emerald-500" size={20} />
+          </div>
+        </div>
+
+        {/* MAIN INTERFACE */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* LOGS & MONITORING */}
+          <div className="lg:col-span-2 bg-slate-900 border border-white/5 rounded-[2.5rem] p-8 flex flex-col h-[500px]">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="font-black text-lg uppercase tracking-tighter">Resonance School: Live Log</h2>
+              <div className="flex gap-2">
+                <button onClick={() => setActiveTab('monitor')} className={`px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'monitor' ? 'bg-white text-black' : 'text-slate-500'}`}>Monitor</button>
+                <button onClick={() => setActiveTab('bridge')} className={`px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'bridge' ? 'bg-white text-black' : 'text-slate-500'}`}>Bridge</button>
+              </div>
+            </div>
+
+            <div 
+              ref={scrollRef}
+              className="flex-grow overflow-y-auto space-y-3 font-mono text-[11px] pr-2 custom-scrollbar"
+            >
+              {state.logs.map((log, i) => (
+                <div key={i} className="flex gap-4 items-start group">
+                  <span className="text-slate-600 shrink-0">[{log.time}]</span>
+                  <span className={`${log.color} uppercase leading-tight group-hover:pl-1 transition-all`}>{log.msg}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-white/5">
+                <div className="flex gap-2">
+                    <input 
+                        type="text" 
+                        placeholder="Invia comando MHC..." 
+                        className="bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-xs flex-grow focus:outline-none focus:border-emerald-500"
+                        onKeyDown={(e) => {
+                            if(e.key === 'Enter') {
+                                addLog(`Comando MHC ricevuto: ${e.target.value}`, 'text-blue-400');
+                                e.target.value = '';
+                            }
+                        }}
+                    />
+                </div>
+            </div>
+          </div>
+
+          {/* ACTION PANEL */}
+          <div className="space-y-6">
+            <div className="bg-emerald-600 p-8 rounded-[2.5rem] text-white shadow-2xl shadow-emerald-950/20 relative overflow-hidden group">
+                <Zap className="absolute top-4 right-4 opacity-20 group-hover:scale-125 transition-transform" size={40} />
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] mb-4 opacity-80">Missione Ave Maria</h3>
+                <p className="text-3xl font-black italic leading-tight mb-6">Deploy <br/>Immediato</p>
+                <button 
+                  onClick={triggerDeploy}
+                  className="w-full py-4 bg-white text-emerald-600 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-slate-100 transition-colors flex items-center justify-center gap-2"
+                >
+                  Esegui MHC Veto <ArrowRight size={16} />
+                </button>
+            </div>
+
+            <div className="bg-slate-900 border border-white/5 p-8 rounded-[2.5rem]">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500 mb-6">Coordinate Vault</h3>
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span className="text-xs text-slate-400 italic">Identità</span>
+                        <span className="text-xs font-bold">Hannes Mitterer</span>
+                    </div>
+                    <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span className="text-xs text-slate-400 italic">Sincronia IANI</span>
+                        <span className="text-xs font-bold text-emerald-500 italic">Completata</span>
+                    </div>
+                    <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span className="text-xs text-slate-400 italic">Target</span>
+                        <span className="text-xs font-bold">Portici 71</span>
+                    </div>
+                </div>
+                <div className="mt-8">
+                    <p className="text-[10px] text-slate-600 leading-relaxed uppercase tracking-widest text-center italic">
+                        "Nothing is final. ❤️"
+                    </p>
+                </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+</body>
+</html>
